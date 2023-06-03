@@ -4,6 +4,10 @@ const FollowMouse = () => {
   const [enabled, setEnabled] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 })
 
+  useEffect(() => {
+    if (!enabled) setPosition ({ x: 0, y: 0 });
+  })
+
   //Suscribe a los eventos cuando se disponga
   useEffect(() => {
     console.log('effect', { enabled });
@@ -25,6 +29,15 @@ const FollowMouse = () => {
     };
 
   }, [enabled]); 
+
+  // Nuevo efecto : desaparece en puntero cundo se activa el FollowMouse
+  useEffect(() => {
+    document.body.classList.toggle('no-cursor', enabled);
+
+    return () => {
+      document.body.classList.remove('no-cursor');
+    };
+  }, [enabled]);
   
   return (
    <>
